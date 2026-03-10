@@ -22,7 +22,11 @@ export default async function Movies() {
             <Link href="/movies/create" className="standardLink">Add a New Movie</Link>
             <ul>
                 {movies.map((movie) => (
-                    <li className="card" key={movie._id}>{movie.title}</li>
+                    <li className="card" key={movie._id}>
+                        <Link href={`/movies/${movie._id}`}>
+                            {movie.title}
+                        </Link>
+                    </li>
                 ))}    
             </ul>           
         </main>

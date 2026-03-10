@@ -1,4 +1,4 @@
-// route.ts: standard Next.js file name for file used to call external api
+// route.ts: standard Next.js file name for file used to call external api GET (all) & POST
 
 // GET: /api/games => fetch all games from server api
 export async function GET() {
