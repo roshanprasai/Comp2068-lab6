@@ -4,19 +4,23 @@ import Link from "next/link";
 import { Movie } from "@/types/movie";
 
 async function getMovies(): Promise<Movie[]> {
-  const res: Response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/movies`,
-    {
-      cache: "no-store",
+  try {
+    const res: Response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/movies`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    if (!res.ok) {
+      return [];
     }
-  );
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch movies");
+    const movies: Movie[] = await res.json();
+    return movies;
+  } catch (error) {
+    return [];
   }
-
-  const movies: Movie[] = await res.json();
-  return movies;
 }
 
 export default async function Movies() {
@@ -29,15 +33,17 @@ export default async function Movies() {
         Add a New Movie
       </Link>
 
-      <ul>
-        {movies.map((movie) => (
-          <li className="card" key={movie._id}>
-            <Link href={`/movies/${movie._id}`}>
-              {movie.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {movies.length === 0 ? (
+        <p>No movies found right now.</p>
+      ) : (
+        <ul>
+          {movies.map((movie) => (
+            <li className="card" key={movie._id}>
+              <Link href={`/movies/${movie._id}`}>{movie.title}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
   );
 }
