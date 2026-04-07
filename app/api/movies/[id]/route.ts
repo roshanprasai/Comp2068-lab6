@@ -46,6 +46,7 @@ export async function PUT(
           "Content-Type": "application/json",
         },
         body: JSON.stringify(body),
+        cache: "no-store",
       }
     );
 
@@ -76,6 +77,7 @@ export async function DELETE(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/v1/movies/${id}`,
       {
         method: "DELETE",
+        cache: "no-store",
       }
     );
 
@@ -86,7 +88,7 @@ export async function DELETE(
       );
     }
 
-    return new Response(null, { status: 204 });
+    return Response.json({ message: "Movie deleted successfully" });
   } catch (error) {
     return Response.json(
       { message: "Server error while deleting movie" },
